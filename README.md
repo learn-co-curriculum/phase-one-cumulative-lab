@@ -4,7 +4,7 @@ In this lab, we will create a small program that will print out a report for an 
 
 This program will:
 
-- Receive a month and day, formatted as `month/day/year`
+- Receive a date formatted as `month/day/year`
 - Parse the date to create individual variables for 
     - Month (string)
     - Day (string)
