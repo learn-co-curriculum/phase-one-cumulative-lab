@@ -31,16 +31,6 @@ import matplotlib.pyplot as plt
 from IPython.display import display, Markdown
 ```
 
-
-```python
-#==SOLUTION== 
-import pandas as pd
-import requests
-from bs4 import BeautifulSoup
-import matplotlib.pyplot as plt
-from IPython.display import display, Markdown
-```
-
 ## Task 1
 
 In the cell below, define a function called `parse_date`.
@@ -61,18 +51,6 @@ parse_date('06/03/2015')
 
 
 ```python
-def parse_date():
-    month_map =  {1: 'January', 2: 'February', 3: 'March',
-                  4: 'April', 5: 'May', 6: 'June', 7: 'July',
-                  8: 'August', 9: 'September', 10:'October', 
-                  11: 'Novembers', 12: 'December'}
-    
-    # Your code here
-```
-
-
-```python
-#==SOLUTION== 
 def parse_date(date):
     
     mapper = {1: 'January', 2: 'February', 3: 'March',
@@ -109,12 +87,6 @@ holidays_api('2015')
 
 
 ```python
-# Your code here
-```
-
-
-```python
-#==SOLUTION== 
 def holidays_api(year):
     url = f'https://date.nager.at/Api/v2/PublicHolidays/{year}/US'
     response = requests.get(url)
@@ -141,12 +113,6 @@ is_public_holiday('09', '07', '2015', holiday_data)
 
 
 ```python
-# Your code here
-```
-
-
-```python
-#==SOLUTION== 
 def is_public_holiday(month, day, year, holiday_data):
     date = f'{year}-{month}-{day}'
     for holiday in holiday_data:
@@ -190,12 +156,6 @@ get_historical_events('July', '07')
 
 
 ```python
-# Your code here
-```
-
-
-```python
-#==SOLUTION== 
 def get_historical_events(month_name, day):    
     url = f'https://www.onthisday.com/day/{month_name}/{day}'
     response = requests.get(url)
@@ -212,13 +172,6 @@ Below, we import a dataset containing stock data from 02/2013-02/2018
 
 
 ```python
-data = pd.read_csv('archive/all_stocks_5yr.csv')
-data.head()
-```
-
-
-```python
-#==SOLUTION== 
 data = pd.read_csv('archive/all_stocks_5yr.csv')
 data.head()
 ```
@@ -342,12 +295,6 @@ find_top_stock_changes('09', '08', '2015', data)
 
 
 ```python
-# Your code here
-```
-
-
-```python
-#==SOLUTION== 
 def find_top_stock_changes(month, day, year, data):
     data_ = data[data.date == f'{year}-{month}-{day}']
     top_five_increase = data_.sort_values('change', ascending=False).iloc[:5]
@@ -380,12 +327,6 @@ This function's output should look like this:
 
 
 ```python
-# Your code here
-```
-
-
-```python
-#==SOLUTION== 
 def plot_stock_info(increase_names, decline_names, increase_change, decline_change):
     fig, axes = plt.subplots(1,2, figsize=(15,6))
     
@@ -446,62 +387,12 @@ def print_historical_events(events):
 
 ```
 
-
-```python
-#==SOLUTION== 
-data = pd.read_csv('archive/all_stocks_5yr.csv')
-data['change'] = data.close - data.open
-
-def main(date, stock_data):
-    month, day, year, month_name = parse_date(date)
-    display(Markdown("# {}/{} Report\n\n".format(month, day)))
-    holidays_data =  holidays_api(year)
-    holiday = is_public_holiday(month, day, year, holidays_data)
-    historical_events = get_historical_events(month_name, day)
-    increase_names, decrease_names, increase_changes, decrease_changes = find_top_stock_changes(month, day, 
-                                                                                           year, data)
-    print_holiday(month, day, year, holiday)
-    print_historical_events(historical_events)
-    if increase_names and decrease_names:
-        plot_stock_info(increase_names, decrease_names, increase_changes, decrease_changes)
-    else:
-        display(Markdown("\n\n**No stock data was found for this day.**"))
-
-
-def print_holiday(month, day, year, holiday):
-    template = ''
-    if holiday:
-        template += "{}/{}/{} is **{}**!\n\n".format(month, day, year, holiday)
-    else:
-        template += "**{}/{} was not a public holiday in {}.**".format(month, day, year)
-    markdown = Markdown(template)
-    display(markdown)
-        
-def print_historical_events(events):
-    
-    events_formatted = [f'**{event.split()[0]}** ' + ' '.join(event.split()[1:]) for event in events]
-    template = '### Historical Highlights'
-    for event in events_formatted:
-        template += '\n\n- ' + event
-
-    markdown = Markdown(template)
-    display(markdown)
-    
-
-```
-
 # Run your code
 
 If each of your functions were named correctly, received the correct number of arguments and in the correct order, and output the correct data, the following function should generate the report!
 
 
 ```python
-main('09/08/2015', data)
-```
-
-
-```python
-#==SOLUTION== 
 main('09/08/2015', data)
 ```
 
@@ -550,5 +441,5 @@ main('09/08/2015', data)
 
 
 
-![png](output_32_3.png)
+![png](output_22_3.png)
 
