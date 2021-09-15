@@ -758,7 +758,7 @@ main('09/08/2015', data)
 
 
 
-![png](output_38_3.png)
+![png](index_files/index_38_3.png)
 
 
 
@@ -812,5 +812,5 @@ main('09/08/2015', data)
 
 
 
-![png](output_39_3.png)
+![png](index_files/index_39_3.png)
 
