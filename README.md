@@ -44,6 +44,15 @@ import matplotlib.pyplot as plt
 from IPython.display import display, Markdown
 ```
 
+
+```python
+import pandas as pd
+import requests
+from bs4 import BeautifulSoup
+import matplotlib.pyplot as plt
+from IPython.display import display, Markdown
+```
+
 ## Task 1
 
 In the cell below, define a function called `parse_date`.
@@ -60,6 +69,17 @@ An example output for this function would look as follows:
 ```python
 parse_date('06/03/2015')
 >> ('06', '03', '2015' ,'June')
+```
+
+
+```python
+def parse_date():
+    month_map =  {1: 'January', 2: 'February', 3: 'March',
+                  4: 'April', 5: 'May', 6: 'June', 7: 'July',
+                  8: 'August', 9: 'September', 10:'October', 
+                  11: 'Novembers', 12: 'December'}
+    
+    # Your code here
 ```
 
 
@@ -100,6 +120,11 @@ holidays_api('2015')
 
 
 ```python
+# Your code here
+```
+
+
+```python
 def holidays_api(year):
     url = f'https://date.nager.at/Api/v2/PublicHolidays/{year}/US'
     response = requests.get(url)
@@ -122,6 +147,11 @@ An example of this function's output looks like this:
 ```python
 is_public_holiday('09', '07', '2015', holiday_data)
 >>> 'Labour Day'
+```
+
+
+```python
+# Your code here
 ```
 
 
@@ -169,6 +199,11 @@ get_historical_events('July', '07')
 
 
 ```python
+# Your code here
+```
+
+
+```python
 def get_historical_events(month_name, day):    
     url = f'https://www.onthisday.com/day/{month_name}/{day}'
     response = requests.get(url)
@@ -187,6 +222,11 @@ In the cell below
 - Open a connection to the stock data file using the python `open` function. 
 - Load the contents of the file into the variable `data` using the `json` library. 
 - Ensure the connection to the stock data file is closed. 
+
+
+```python
+# Your code here
+```
 
 
 ```python
@@ -224,6 +264,52 @@ This function has the following inputs:
 This function should return:
 
 - List. The stock information for every company for the inputted date. 
+
+
+```python
+def get_company_stocks(month, day, year, data):
+    # Create a string variable called `date`
+    # that has the following format:
+    # `year-month-day`
+    #===============
+    # YOUR CODE HERE
+    #===============
+    # Create an empty list
+    # called `found_stocks`
+    #===============
+    # YOUR CODE HERE
+    #===============
+    
+    # Loop over the company names in the data variable
+    #===============
+    # YOUR CODE HERE
+    #===============
+    
+        # Loop over the stock entries for the company
+        #===============
+        # YOUR CODE HERE
+        #===============
+            # Check if the date in the stock entry
+            # is equal to the `date` variable
+            #===============
+            # YOUR CODE HERE
+            #===============
+                # Add the name of the company
+                # to the stock entry
+                #===============
+                # YOUR CODE HERE
+                #===============
+                # Append the entry to the 
+                # `found_stocks` list
+                #===============
+                # YOUR CODE HERE
+                #===============
+                
+    # Return the found stocks
+    #===============
+    # YOUR CODE HERE
+    #===============
+```
 
 
 ```python
@@ -272,6 +358,45 @@ This function should return:
 - List. A list sorted in descending order of price changes (close-open)
     - The list should contains tuples with the following format:
     ```(Name of company, Price change)```
+
+
+```python
+def get_price_changes(found_stocks):
+    # Create an empty list
+    # called `price_changes`
+    #===============
+    # YOUR CODE HERE
+    #===============
+    
+    # Loop over the entries in the
+    # `found_stocks` variable
+    #===============
+    # YOUR CODE HERE
+    #===============
+        # Calculate the price change for the entry
+        #===============
+        # YOUR CODE HERE
+        #===============
+        # Create a tuple variable with the 
+        # format `(Company name, Price change)`
+        #===============
+        # YOUR CODE HERE
+        #===============
+        # Append the tuple to the
+        # `price_changes` list
+        #===============
+        # YOUR CODE HERE
+        #===============
+        
+    # Sort the `price_changes` list in descending order
+    #===============
+    # YOUR CODE HERE
+    #===============
+    # Return the sorted price changes
+    #===============
+    # YOUR CODE HERE
+    #===============
+```
 
 
 ```python
@@ -340,6 +465,44 @@ find_top_stock_changes('09', '08', '2015', data)
 def find_top_stock_changes(month, day, year, data):
     # Pass the inputs into the
     # `get_company_stocks` function
+    #===============
+    # YOUR CODE HERE
+    #===============
+    
+    # Pass the output of the previous step
+    # into the `get_price_changes` function
+    #===============
+    # YOUR CODE HERE
+    #===============
+    
+    # Isolate the company names for the
+    # top five increases and top five decreases
+    # according to price change. Each should be their own list.
+    #===============
+    # YOUR CODE HERE
+    #===============
+    
+    # Isolate the top five price changes and top five price
+    # decreases. Each should be their own list. 
+    #===============
+    # YOUR CODE HERE
+    #===============
+    
+    # Return
+    # 1. Names of companies with top five price increase
+    # 2. Names of companies with top five price decrease
+    # 3. Price changes that correspond to return item #1
+    # 4. Price changes that correspond to reture item #2
+    #===============
+    # YOUR CODE HERE
+    #===============
+```
+
+
+```python
+def find_top_stock_changes(month, day, year, data):
+    # Pass the inputs into the
+    # `get_company_stocks` function
     stocks = get_company_stocks(month, day, year, data)
     
     # Pass the output of the previous step
@@ -365,6 +528,29 @@ def find_top_stock_changes(month, day, year, data):
     return top_five_names, low_five_names, top_five_changes, low_five_changes
 ```
 
+
+```python
+find_top_stock_changes('09', '08', '2015', data)
+```
+
+
+
+
+    (['REGN', 'PCLN', 'AZO', 'AMZN', 'EQIX'],
+     ['PVH', 'RRC', 'MCK', 'COO', 'NFLX'],
+     [27.879999999999995,
+      12.400000000000091,
+      9.860000000000014,
+      8.849999999999966,
+      8.059999999999945],
+     [-0.7999999999999972,
+      -0.9300000000000068,
+      -0.960000000000008,
+      -3.890000000000015,
+      -7.1299999999999955])
+
+
+
 ## Task 9
 
 In the cell below, define a function that receives 4 arguments
@@ -384,6 +570,11 @@ This function's output should look like this:
 
 
 ```python
+# Your code here
+```
+
+
+```python
 def plot_stock_info(increase_names, decline_names, increase_change, decline_change):
     fig, axes = plt.subplots(1,2, figsize=(15,6))
     
@@ -400,6 +591,52 @@ def plot_stock_info(increase_names, decline_names, increase_change, decline_chan
 In the cell below, we provide some code for printing the report.
 
 Run this cell unchanged.
+
+
+```python
+import json
+
+file = open('data/stock-data.json', 'r')
+data = json.load(file)
+file.close()
+
+def main(date, stock_data):
+    month, day, year, month_name = parse_date(date)
+    display(Markdown("# {}/{} Report\n\n".format(month, day)))
+    holidays_data =  holidays_api(year)
+    holiday = is_public_holiday(month, day, year, holidays_data)
+    historical_events = get_historical_events(month_name, day)
+    increase_names, decrease_names, increase_changes, decrease_changes = find_top_stock_changes(month, day, 
+                                                                                           year, data)
+    print_holiday(month, day, year, holiday)
+    print_historical_events(historical_events)
+    if increase_names and decrease_names:
+        plot_stock_info(increase_names, decrease_names, increase_changes, decrease_changes)
+    else:
+        display(Markdown("\n\n**No stock data was found for this day.**"))
+
+
+def print_holiday(month, day, year, holiday):
+    template = ''
+    if holiday:
+        template += "{}/{}/{} is **{}**!\n\n".format(month, day, year, holiday)
+    else:
+        template += "**{}/{} was not a public holiday in {}.**".format(month, day, year)
+    markdown = Markdown(template)
+    display(markdown)
+        
+def print_historical_events(events):
+    
+    events_formatted = [f'**{event.split()[0]}** ' + ' '.join(event.split()[1:]) for event in events]
+    template = '### Historical Highlights'
+    for event in events_formatted:
+        template += '\n\n- ' + event
+
+    markdown = Markdown(template)
+    display(markdown)
+    
+
+```
 
 
 ```python
@@ -486,6 +723,61 @@ main('09/08/2015', data)
 
 - **1664** Dutch surrender colony of New Netherlands (including New York) to 300 English soldiers
 
+- **1941** WWII: Siege of Leningrad by German, Finnish, and eventually Spanish troops begins; battle lasted over 28 months, as Russia repels the invasion; well over a million lives
+
+- **1970** Black September hijackings begin, three airliners hijacked and blown up by Popular Front for the Liberation of Palestine
+
+- **1986** "The Oprah Winfrey Show" is first broadcast nationally
+
+- **1960** Nationwide release (US) of Alfred Hitchcock's "Psycho" starring Anthony Perkins and Janet Leigh
+
+- **1965** Small ads in Daily Variety and Hollywood Reporter attract 437 young men interested in forming the world’s first manufactured boy band, "The Monkees" - 3 are chosen with Davey Jones already having been cast
+
+- **2001** Kylie Minogue releases her single "I Just Can't Get You Out of My Head", the biggest of her career
+
+- **1973** Hank Aaron sets record of most HRs in 1 league (709)
+
+- **1761** Marriage of George III of the United Kingdom to Charlotte of Mecklenburg-Strelitz (Queen Charlotte)
+
+- **1864** Business magnate John D. Rockefeller (25) weds abolitionist Laura Spelman (24)
+
+- **1897** Confederate General James Longstreet (76) weds Helen Dortch (34) at the governor's mansion in Atlanta, Georgia
+
+- **2009** 90s pop sensation singer Peter Andre (36) divorces glamour model Katie Price (31) due to unreasonable behaviour after 3 years of marriage
+
+
+
+![png](index_files/index_38_3.png)
+
+
+
+```python
+main('09/08/2015', data)
+```
+
+
+# 09/08 Report
+
+
+
+
+
+**09/08 was not a public holiday in 2015.**
+
+
+
+### Historical Highlights
+
+- **1380** Battle on Kulikovo: Moscow's great monarch Dimitri defeats the Mongols beginning the decline of the Tatars
+
+- **1504** Michelangelo's Statue of David is unveiled in Florence
+
+- **1522** Spanish navigator Juan de Elcano returns to Spain, completing 1st circumnavigation of the globe (expedition began under Ferdinand Magellan)
+
+- **1565** 1st permanent European settlement in the US founded at St. Augustine, Florida
+
+- **1664** Dutch surrender colony of New Netherlands (including New York) to 300 English soldiers
+
 - **1965** A small ad in New York’s Daily Variety attracts 437 young men interested in forming the world’s first manufactured boy band, "The Monkees"
 
 - **1970** Black September hijackings begin, three airliners hijacked and blown up by Popular Front for the Liberation of Palestine
@@ -508,5 +800,5 @@ main('09/08/2015', data)
 
 
 
-![png](output_26_3.png)
+![png](index_files/index_39_3.png)
 
