@@ -273,7 +273,6 @@ This function should return:
 
 
 ```python
-#==SOLUTION==
 def get_company_stocks(month, day, year, data):
     # Create a string variable called `date`
     # that has the following format:
