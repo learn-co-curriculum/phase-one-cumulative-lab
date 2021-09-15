@@ -231,52 +231,6 @@ def get_company_stocks(month, day, year, data):
     # Create a string variable called `date`
     # that has the following format:
     # `year-month-day`
-    #===============
-    # YOUR CODE HERE
-    #===============
-    # Create an empty list
-    # called `found_stocks`
-    #===============
-    # YOUR CODE HERE
-    #===============
-    
-    # Loop over the company names in the data variable
-    #===============
-    # YOUR CODE HERE
-    #===============
-    
-        # Loop over the stock entries for the company
-        #===============
-        # YOUR CODE HERE
-        #===============
-            # Check if the date in the stock entry
-            # is equal to the `date` variable
-            #===============
-            # YOUR CODE HERE
-            #===============
-                # Add the name of the company
-                # to the stock entry
-                #===============
-                # YOUR CODE HERE
-                #===============
-                # Append the entry to the 
-                # `found_stocks` list
-                #===============
-                # YOUR CODE HERE
-                #===============
-                
-    # Return the found stocks
-    #===============
-    # YOUR CODE HERE
-    #===============
-```
-
-
-```python
-def get_company_stocks(month, day, year, data):
-    # Create a string variable called `date`
-    # that has the following format:
-    # `year-month-day`
     date = f'{year}-{month}-{day}'
     
     # Create an empty list
@@ -554,5 +508,5 @@ main('09/08/2015', data)
 
 
 
-![png](output_27_3.png)
+![png](output_26_3.png)
 
