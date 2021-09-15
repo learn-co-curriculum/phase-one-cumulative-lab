@@ -1,26 +1,39 @@
-# Warmdown - Phase 1 Cumulative
+# Phase 1 – Mini Project
 
-In this lab, we will create a small program that will print out a report for an inputted date.
+In this lab, we will create a small program that will use the following skills learned in phase 1:
+- Manipulating string data
+- Navigating a json/dictionary data structure
+- Sending a request to an api and collecting the response
+- Scraping data from a webpage
+- Data Vizualization
 
-This program will:
+## Your Task
 
-- Receive a date formatted as `month/day/year`
-- Parse the date to create individual variables for 
+In this notebook, you will write nine functions. When used together, these functions produce a simple python application that receives a date and outputs a report detailing the following:
+- Whether or not the day was a public holiday
+- What historical events occured on that day
+- The top 5 stock price increases and decreases for that day. 
+
+
+
+### Specifically this program will...
+
+1. Receive a date formatted as `month/day/year`
+1. Parse the date to create individual variables for 
     - Month (string)
     - Day (string)
-    - Month (string)
     - Year (string)
     - Month Name (string)
-- Query the public holidays api to check if the date was a holiday.
-- Connect to the `www.onthisday.com` website and scrape the `Important Events` listed for a given date.
-- Manipulate a dataset of stock information in pandas and find the 5 largest stock increases and declines for and inputted day.
-- Visualize the the top five increases and declines using subplots.
+1. Query the public holidays api to check if the date was a holiday.
+1. Connect to the `www.onthisday.com` website and scrape the `Important Events` listed for a given date.
+1. Manipulate a dataset of stock information and find the 5 largest stock increases and declines for an inputted day.
+1. Visualize the top five increases and declines using subplots.
 
-Some code has been provided to generate the report itself. Your task is to write the following functions:
+The goal is to produce a function that will have an output like the one seen below. Some code has been provided to generate the report itself, your job is to write the functions to collect and organize the data, and we'll do the rest.
 
-The goal is to produce a function that will produce the following:
+-------
 
-![](example.png)
+<img src="./example.png" width="800px">
 
 
 ```python
@@ -208,115 +221,231 @@ def get_historical_events(month_name, day):
 
 ## Task 5
 
-Below, we import a dataset containing stock data from 02/2013-02/2018
+A `json` data file containing stock data is stored in the `data` folder of this repository with the filename `stock-data.json`.
+
+In the cell below
+- Open a connection to the stock data file using the python `open` function. 
+- Load the contents of the file into the variable `data` using the `json` library. 
+- Ensure the connection to the stock data file is closed. 
 
 
 ```python
-data = pd.read_csv('archive/all_stocks_5yr.csv')
-data.head()
+# Your code here
 ```
 
 
 ```python
-#==SOLUTION== 
-data = pd.read_csv('archive/all_stocks_5yr.csv')
-data.head()
+#==SOLUTION==
+import json
+
+# Open a connection to the stock data file
+# using the python `open` function
+file = open('data/stock-data.json', 'r')
+
+# Load the contents of the file into the variable
+# `data` using the json library
+data = json.load(file)
+
+# Ensure the connection
+# to the stock data file is closed
+file.close()
+```
+
+## Task 6
+
+The next three tasks will focus on pulling information out of the `data` variable. 
+
+Let's first write a function that will find the stock data for every company that occurs on a specific date. 
+ 
+
+#### `get_companies`
+
+This function has the following inputs:
+
+- month: String. 
+- day:   String
+- year:  String.
+- data:  Dictionary. 
+
+This function should return:
+
+- List. The stock information for every company for the inputted date. 
+
+
+```python
+#==SOLUTION==
+def get_company_stocks(month, day, year, data):
+    # Create a string variable called `date`
+    # that has the following format:
+    # `year-month-day`
+    #===============
+    # YOUR CODE HERE
+    #===============
+    # Create an empty list
+    # called `found_stocks`
+    #===============
+    # YOUR CODE HERE
+    #===============
+    
+    # Loop over the company names in the data variable
+    #===============
+    # YOUR CODE HERE
+    #===============
+    
+        # Loop over the stock entries for the company
+        #===============
+        # YOUR CODE HERE
+        #===============
+            # Check if the date in the stock entry
+            # is equal to the `date` variable
+            #===============
+            # YOUR CODE HERE
+            #===============
+                # Add the name of the company
+                # to the stock entry
+                #===============
+                # YOUR CODE HERE
+                #===============
+                # Append the entry to the 
+                # `found_stocks` list
+                #===============
+                # YOUR CODE HERE
+                #===============
+                
+    # Return the found stocks
+    #===============
+    # YOUR CODE HERE
+    #===============
 ```
 
 
+```python
+#==SOLUTION==
+def get_company_stocks(month, day, year, data):
+    # Create a string variable called `date`
+    # that has the following format:
+    # `year-month-day`
+    date = f'{year}-{month}-{day}'
+    
+    # Create an empty list
+    # called `found_stocks`
+    found_stocks = []
+    
+    # Loop over the company names in the data variable
+    for company in data:
+        # Loop over the stock entries for the company
+        for entry in data[company]:
+            # Check if the date in the stock entry
+            # is equal to the `date` variable
+            if entry['date'] == date:
+                # Add the name of the company
+                # to the stock entry
+                entry['name'] = company
+                # Append the entry to the 
+                # `found_stocks` list
+                found_stocks.append(entry)
+    
+    # Return the found stocks
+    return found_stocks
+```
+
+## Task 7
+
+The stock data does not actually have information about price changes. It only has the opening and closing prices for each day.
+
+Let's define a function that will loop over stock entries and calculate the price change that took place on that day. 
+
+#### `get_price_changes`
+
+This function has the following inputs:
+
+- found_stocks: List. The stock information for every company for a specific day. 
+
+This function should return:
+
+- List. A list sorted in descending order of price changes (close-open)
+    - The list should contains tuples with the following format:
+    ```(Name of company, Price change)```
 
 
-<div>
-<style scoped>
-    .dataframe tbody tr th:only-of-type {
-        vertical-align: middle;
-    }
-
-    .dataframe tbody tr th {
-        vertical-align: top;
-    }
-
-    .dataframe thead th {
-        text-align: right;
-    }
-</style>
-<table border="1" class="dataframe">
-  <thead>
-    <tr style="text-align: right;">
-      <th></th>
-      <th>date</th>
-      <th>open</th>
-      <th>high</th>
-      <th>low</th>
-      <th>close</th>
-      <th>volume</th>
-      <th>Name</th>
-    </tr>
-  </thead>
-  <tbody>
-    <tr>
-      <th>0</th>
-      <td>2013-02-08</td>
-      <td>15.07</td>
-      <td>15.12</td>
-      <td>14.63</td>
-      <td>14.75</td>
-      <td>8407500</td>
-      <td>AAL</td>
-    </tr>
-    <tr>
-      <th>1</th>
-      <td>2013-02-11</td>
-      <td>14.89</td>
-      <td>15.01</td>
-      <td>14.26</td>
-      <td>14.46</td>
-      <td>8882000</td>
-      <td>AAL</td>
-    </tr>
-    <tr>
-      <th>2</th>
-      <td>2013-02-12</td>
-      <td>14.45</td>
-      <td>14.51</td>
-      <td>14.10</td>
-      <td>14.27</td>
-      <td>8126000</td>
-      <td>AAL</td>
-    </tr>
-    <tr>
-      <th>3</th>
-      <td>2013-02-13</td>
-      <td>14.30</td>
-      <td>14.94</td>
-      <td>14.25</td>
-      <td>14.66</td>
-      <td>10259500</td>
-      <td>AAL</td>
-    </tr>
-    <tr>
-      <th>4</th>
-      <td>2013-02-14</td>
-      <td>14.94</td>
-      <td>14.96</td>
-      <td>13.16</td>
-      <td>13.99</td>
-      <td>31879900</td>
-      <td>AAL</td>
-    </tr>
-  </tbody>
-</table>
-</div>
+```python
+def get_price_changes(found_stocks):
+    # Create an empty list
+    # called `price_changes`
+    #===============
+    # YOUR CODE HERE
+    #===============
+    
+    # Loop over the entries in the
+    # `found_stocks` variable
+    #===============
+    # YOUR CODE HERE
+    #===============
+        # Calculate the price change for the entry
+        #===============
+        # YOUR CODE HERE
+        #===============
+        # Create a tuple variable with the 
+        # format `(Company name, Price change)`
+        #===============
+        # YOUR CODE HERE
+        #===============
+        # Append the tuple to the
+        # `price_changes` list
+        #===============
+        # YOUR CODE HERE
+        #===============
+        
+    # Sort the `price_changes` list in descending order
+    #===============
+    # YOUR CODE HERE
+    #===============
+    # Return the sorted price changes
+    #===============
+    # YOUR CODE HERE
+    #===============
+```
 
 
+```python
+#==SOLUTION==       
+def get_price_changes(found_stocks):
+    # Create an empty list
+    # called `price_changes`
+    price_changes = []
+    
+    # Loop over the entries in the
+    # `found_stocks` variable
+    for entry in found_stocks:
+        # Calculate the price change for the entry
+        change = entry['close'] - entry['open']
+        # Create a tuple variable with the 
+        # format `(Company name, Price change)`
+        obsv = (entry['name'], change)
+        # Append the tuple to the
+        # `price_changes` list
+        price_changes.append(obsv)
+        
+    # Sort the `price_changes` list in descending order
+    sorted_changes = sorted(price_changes, key=lambda x: x[1], reverse=True)
+    # Return the sorted price changes
+    return sorted_changes
+```
 
-In the cell below, define a function called `find_top_stock_changes` that receives four arguments
-1. month - string
-2. day - string
-3. year - string
-4. data - pandas dataframe
+Ok, now let's define a function that will call the previous two functions, and then return information about the companies that saw the best stock increases and worst stock decreases on a given day. 
 
-This function should return four lists
+## Task 8
+
+#### `find_top_stock_changes`
+
+This function has the following inputs:
+
+- month: String. 
+- day:   String
+- year:  String.
+- data:  Dictionary. 
+
+This function should return four lists:
 1. A list of 5 stock names with the highest increases on the inputted day
 2. A list of 5 stock names with the highest declines on the inputted day
 3. A list of the 5 stock changes for top increases
@@ -327,45 +456,116 @@ An example of this function's output looks like this:
 ```python
 find_top_stock_changes('09', '08', '2015', data)
 >> (['REGN', 'PCLN', 'AZO', 'AMZN', 'EQIX'],
- ['NFLX', 'COO', 'MCK', 'RRC', 'PVH'],
+ ['PVH', 'RRC', 'MCK', 'COO', 'NFLX'],
  [27.879999999999995,
   12.400000000000091,
   9.860000000000014,
   8.849999999999966,
   8.059999999999945],
- [-7.1299999999999955,
-  -3.890000000000015,
-  -0.960000000000008,
+ [-0.7999999999999972,
   -0.9300000000000068,
-  -0.7999999999999972])
+  -0.960000000000008,
+  -3.890000000000015,
+  -7.1299999999999955])
 ```
 
 
 ```python
-# Your code here
-```
-
-
-```python
-#==SOLUTION== 
 def find_top_stock_changes(month, day, year, data):
-    data_ = data[data.date == f'{year}-{month}-{day}']
-    top_five_increase = data_.sort_values('change', ascending=False).iloc[:5]
-    top_five_declines = data_.sort_values('change').iloc[:5]
-    increase_names = top_five_increase.Name.tolist()
-    decrease_names = top_five_declines.Name.tolist()
-
-    increase_changes = top_five_increase.change.tolist()
-    decrease_changes = top_five_declines.change.tolist()
-
-    return increase_names, decrease_names, increase_changes, decrease_changes
+    # Pass the inputs into the
+    # `get_company_stocks` function
+    #===============
+    # YOUR CODE HERE
+    #===============
+    
+    # Pass the output of the previous step
+    # into the `get_price_changes` function
+    #===============
+    # YOUR CODE HERE
+    #===============
+    
+    # Isolate the company names for the
+    # top five increases and top five decreases
+    # according to price change. Each should be their own list.
+    #===============
+    # YOUR CODE HERE
+    #===============
+    
+    # Isolate the top five price changes and top five price
+    # decreases. Each should be their own list. 
+    #===============
+    # YOUR CODE HERE
+    #===============
+    
+    # Return
+    # 1. Names of companies with top five price increase
+    # 2. Names of companies with top five price decrease
+    # 3. Price changes that correspond to return item #1
+    # 4. Price changes that correspond to reture item #2
+    #===============
+    # YOUR CODE HERE
+    #===============
 ```
 
-## Task 6
+
+```python
+#==SOLUTION==
+def find_top_stock_changes(month, day, year, data):
+    # Pass the inputs into the
+    # `get_company_stocks` function
+    stocks = get_company_stocks(month, day, year, data)
+    
+    # Pass the output of the previous step
+    # into the `get_price_changes` function
+    price_changes = get_price_changes(stocks)
+    
+    # Isolate the company names for the
+    # top five increases and top five decreases
+    # according to price change. Each should be their own list.
+    top_five_names = [x[0] for x in price_changes[:5]]
+    low_five_names = [x[0] for x in price_changes[-5:]]
+    
+    # Isolate the top five price changes and top five price
+    # decreases. Each should be their own list. 
+    top_five_changes = [x[1] for x in price_changes[:5]]
+    low_five_changes = [x[1] for x in price_changes[-5:]]
+    
+    # Return
+    # 1. Names of companies with top five price increase
+    # 2. Names of companies with top five price decrease
+    # 3. Price changes that correspond to return item #1
+    # 4. Price changes that correspond to reture item #2
+    return top_five_names, low_five_names, top_five_changes, low_five_changes
+```
+
+
+```python
+find_top_stock_changes('09', '08', '2015', data)
+```
+
+
+
+
+    (['REGN', 'PCLN', 'AZO', 'AMZN', 'EQIX'],
+     ['PVH', 'RRC', 'MCK', 'COO', 'NFLX'],
+     [27.879999999999995,
+      12.400000000000091,
+      9.860000000000014,
+      8.849999999999966,
+      8.059999999999945],
+     [-0.7999999999999972,
+      -0.9300000000000068,
+      -0.960000000000008,
+      -3.890000000000015,
+      -7.1299999999999955])
+
+
+
+## Task 9
 
 In the cell below, define a function that receives 4 arguments
-1. increase_names - A list of 5 stock names with the highest increases on the inputted day
-2. decline_names - A list of 5 stock names with the highest declines on the inputted day
+1. increase_names - A list of 5 stock names with the highest increases 
+2. decline_names - A list of 5 stock names with the highest declines
 3. increase_change - A list of the 5 stock changes for top increases
 4. decline_change - A list of the 5 stock changes for top declines.
 
@@ -405,8 +605,11 @@ Run this cell unchanged.
 
 
 ```python
-data = pd.read_csv('archive/all_stocks_5yr.csv')
-data['change'] = data.close - data.open
+import json
+
+file = open('data/stock-data.json', 'r')
+data = json.load(file)
+file.close()
 
 def main(date, stock_data):
     month, day, year, month_name = parse_date(date)
@@ -449,9 +652,19 @@ def print_historical_events(events):
 
 ```python
 #==SOLUTION== 
-data = pd.read_csv('archive/all_stocks_5yr.csv')
-data['change'] = data.close - data.open
+import json
 
+# Open a connection to the stock data file
+# using the python `open` function
+file = open('data/stock-data.json', 'r')
+
+# Load the contents of the file into the variable
+# `data` using the json library
+data = json.load(file)
+
+# Ensure the connection
+# to the stock data file is closed
+file.close()
 def main(date, stock_data):
     month, day, year, month_name = parse_date(date)
     display(Markdown("# {}/{} Report\n\n".format(month, day)))
@@ -498,6 +711,56 @@ If each of your functions were named correctly, received the correct number of a
 ```python
 main('09/08/2015', data)
 ```
+
+
+# 09/08 Report
+
+
+
+
+
+**09/08 was not a public holiday in 2015.**
+
+
+
+### Historical Highlights
+
+- **1380** Battle on Kulikovo: Moscow's great monarch Dimitri defeats the Mongols beginning the decline of the Tatars
+
+- **1504** Michelangelo's Statue of David is unveiled in Florence
+
+- **1522** Spanish navigator Juan de Elcano returns to Spain, completing 1st circumnavigation of the globe (expedition began under Ferdinand Magellan)
+
+- **1565** 1st permanent European settlement in the US founded at St. Augustine, Florida
+
+- **1664** Dutch surrender colony of New Netherlands (including New York) to 300 English soldiers
+
+- **1941** WWII: Siege of Leningrad by German, Finnish, and eventually Spanish troops begins; battle lasted over 28 months, as Russia repels the invasion; well over a million lives
+
+- **1970** Black September hijackings begin, three airliners hijacked and blown up by Popular Front for the Liberation of Palestine
+
+- **1986** "The Oprah Winfrey Show" is first broadcast nationally
+
+- **1960** Nationwide release (US) of Alfred Hitchcock's "Psycho" starring Anthony Perkins and Janet Leigh
+
+- **1965** Small ads in Daily Variety and Hollywood Reporter attract 437 young men interested in forming the world’s first manufactured boy band, "The Monkees" - 3 are chosen with Davey Jones already having been cast
+
+- **2001** Kylie Minogue releases her single "I Just Can't Get You Out of My Head", the biggest of her career
+
+- **1973** Hank Aaron sets record of most HRs in 1 league (709)
+
+- **1761** Marriage of George III of the United Kingdom to Charlotte of Mecklenburg-Strelitz (Queen Charlotte)
+
+- **1864** Business magnate John D. Rockefeller (25) weds abolitionist Laura Spelman (24)
+
+- **1897** Confederate General James Longstreet (76) weds Helen Dortch (34) at the governor's mansion in Atlanta, Georgia
+
+- **2009** 90s pop sensation singer Peter Andre (36) divorces glamour model Katie Price (31) due to unreasonable behaviour after 3 years of marriage
+
+
+
+![png](output_38_3.png)
+
 
 
 ```python
@@ -550,5 +813,5 @@ main('09/08/2015', data)
 
 
 
-![png](output_32_3.png)
+![png](output_39_3.png)
 
